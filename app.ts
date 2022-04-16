@@ -1,5 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import routes from './routes/routes';
+import mongoDB from './configs/DB';
 
 class App {
 	public app: Application;
@@ -11,6 +12,7 @@ class App {
 	}
 
 	protected plugin = () => {
+		mongoDB.connect();
 		this.app.use(express.urlencoded({ extended: false }));
 	};
 
