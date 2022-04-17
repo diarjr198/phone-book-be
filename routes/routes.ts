@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction, Router } from 'express';
+import users from '../controllers/user.controller';
 
 class Routes {
 	router: Router;
@@ -10,15 +11,11 @@ class Routes {
 	}
 
 	protected login = () => {
-		this.router.post('/login', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'Login' });
-		});
+		this.router.post('/login', users.login);
 	};
 
 	protected register = () => {
-		this.router.post('/register', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'Register' });
-		});
+		this.router.post('/register', users.register);
 	};
 
 	protected user = () => {
