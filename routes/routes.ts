@@ -21,7 +21,7 @@ class Routes {
 	};
 
 	protected user = () => {
-		this.router.use('/user', userRoutes);
+		this.router.use('/user', [ authJwt.verifyToken ], userRoutes);
 	};
 }
 
