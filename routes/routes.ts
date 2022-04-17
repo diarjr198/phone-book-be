@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import users from '../controllers/user.controller';
+import authJwt from '../middlewares/authJWT';
+import userRoutes from './user.routes';
 
 class Routes {
 	router: Router;
@@ -19,9 +21,7 @@ class Routes {
 	};
 
 	protected user = () => {
-		this.router.get('/user', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'User' });
-		});
+		this.router.use('/user', userRoutes);
 	};
 }
 

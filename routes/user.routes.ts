@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import contacts from '../controllers/contact.controller';
 
 class UserRoutes {
 	userRoutes: Router;
@@ -9,25 +10,21 @@ class UserRoutes {
 	}
 
 	protected userroutes = () => {
-		this.userRoutes.get('/list', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'List' });
-		});
+		this.userRoutes.get('/list', contacts.getContactUser);
 
-		this.userRoutes.post('/create', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'Create' });
-		});
+		this.userRoutes.get('/listspecific', contacts.getContactUserSpecific);
 
-		this.userRoutes.put('/update', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'Update' });
-		});
+		this.userRoutes.post('/add', contacts.addContactUser);
 
-		this.userRoutes.delete('/delete', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'Delete' });
-		});
+		this.userRoutes.put('/update', contacts.updateContactUser);
 
-		this.userRoutes.patch('/favorite', (req: Request, res: Response) => {
-			res.status(200).json({ message: 'Favorite' });
-		});
+		this.userRoutes.delete('/delete', contacts.deleteContactUser);
+
+		this.userRoutes.patch('/favorite', contacts.favoriteContactUser);
+
+		this.userRoutes.get('/listfavorite', contacts.getListFavoriteContactUser);
+
+		this.userRoutes.get('/recent', contacts.recentContactUser);
 	};
 }
 
