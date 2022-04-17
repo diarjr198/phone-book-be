@@ -2,6 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import routes from './routes/routes';
 import mongoDB from './configs/DB';
 import errorHandler from './middlewares/errorHandler';
+import cors from 'cors';
 
 class App {
 	public app: Application;
@@ -16,6 +17,17 @@ class App {
 	protected plugin = () => {
 		mongoDB.connect();
 		this.app.use(express.urlencoded({ extended: false }));
+		this.app.use(express.json());
+		this.app.use(cors());
+		this.app.use(function(req, res, next) {
+			res.setHeader('Access-Control-Allow-Origin', '*');
+			res.setHeader(
+				'Access-Control-Allow-Headers',
+				'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+			);
+			res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+			next();
+		});
 	};
 
 	protected route = () => {
