@@ -1,6 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import routes from './routes/routes';
 import mongoDB from './configs/DB';
+import errorHandler from './middlewares/errorHandler';
 
 class App {
 	public app: Application;
@@ -9,6 +10,7 @@ class App {
 		this.app = express();
 		this.plugin();
 		this.route();
+		this.errorHandler();
 	}
 
 	protected plugin = () => {
@@ -21,6 +23,10 @@ class App {
 			res.status(200).json({ message: 'Success' });
 		});
 		this.app.use('/api', routes);
+	};
+
+	protected errorHandler = () => {
+		this.app.use(errorHandler);
 	};
 }
 
