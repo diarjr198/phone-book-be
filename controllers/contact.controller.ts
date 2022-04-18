@@ -27,7 +27,7 @@ class contacts {
 				throw { name: 'id_user_not_found' };
 			}
 			const result = await Contact.findOneAndUpdate(
-				{ id_user: id_user, id: id_contact },
+				{ id_user: id_user, _id: id_contact },
 				{ last_seen: new Date() },
 				{ new: true }
 			);
@@ -44,15 +44,17 @@ class contacts {
 
 	static async addContactUser(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { id_user, name, phone, email, company, job } = req.body;
+			const { id_user } = req.query;
+			const { name, phone, email, company, job } = req.body;
 			if (!id_user || !name || !phone || !email || !company || !job) {
-				return res.status(400).json({
-					message: 'Please enter all fields'
-				});
+				// return res.status(400).json({
+				// 	message: 'Please enter all fields'
+				// });
+				throw { name: 'empty_field' };
 			}
 			const result = await Contact.create({
 				id_user: id_user,
-				name: name,
+				name: name[0].toUpperCase() + name.slice(1),
 				telp: phone,
 				email: email,
 				company: company,
@@ -72,19 +74,17 @@ class contacts {
 
 	static async updateContactUser(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { id_contact } = req.query;
+			const { id_user, id_contact } = req.query;
 			const { name, phone, email, company, job } = req.body;
 			if (!id_contact || !name || !phone || !email || !company || !job) {
-				return res.status(400).json({
-					message: 'Please enter all fields'
-				});
+				throw { name: 'empty_field' };
 			}
-			const getContact = await Contact.findById(id_contact);
+			const getContact = await Contact.findOne({ id_user: id_user, _id: id_contact });
 			if (!getContact) {
 				throw { name: 'id_contact_not_found' };
 			}
 			const result = await Contact.findOneAndUpdate(
-				{ id: id_contact },
+				{ id_user: id_user, _id: id_contact },
 				{
 					name: name,
 					telp: phone,
@@ -108,11 +108,11 @@ class contacts {
 
 	static async deleteContactUser(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { id_contact } = req.query;
+			const { id_user, id_contact } = req.query;
 			if (!id_contact) {
 				throw { name: 'id_contact_not_found' };
 			}
-			const result = await Contact.findByIdAndDelete(id_contact);
+			const result = await Contact.findOneAndDelete({ id_user: id_user, _id: id_contact });
 			if (!result) {
 				throw { name: 'delete_contact_failed' };
 			}
@@ -126,7 +126,7 @@ class contacts {
 
 	static async favoriteContactUser(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { id_contact } = req.query;
+			const { id_user, id_contact } = req.query;
 			if (!id_contact) {
 				throw { name: 'id_contact_not_found' };
 			}
@@ -136,9 +136,17 @@ class contacts {
 			}
 			let result;
 			if (resultContact.favorite === 'N') {
-				result = await Contact.findOneAndUpdate({ id: id_contact }, { favorite: 'Y' }, { new: true });
+				result = await Contact.findOneAndUpdate(
+					{ id_user: id_user, _id: id_contact },
+					{ favorite: 'Y' },
+					{ new: true }
+				);
 			} else {
-				result = await Contact.findOneAndUpdate({ id: id_contact }, { favorite: 'N' }, { new: true });
+				result = await Contact.findOneAndUpdate(
+					{ id_user: id_user, _id: id_contact },
+					{ favorite: 'N' },
+					{ new: true }
+				);
 			}
 			if (!result) {
 				throw { name: 'update_contact_failed' };
