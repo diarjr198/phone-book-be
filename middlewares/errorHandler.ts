@@ -14,7 +14,7 @@ export default (err: Errback, req: Request, res: Response, next: NextFunction) =
 			message = 'Akses token hilang!';
 			break;
 		case 'JsonWebTokenError':
-			code = 401;
+			code = 403;
 			message = 'Akses token tidak Valid!';
 			break;
 		case 'TokenExpiredError':
@@ -34,11 +34,11 @@ export default (err: Errback, req: Request, res: Response, next: NextFunction) =
 			message = 'Email telah digunakan atau terdaftar!';
 			break;
 		case 'User_Invalid':
-			code = 401;
+			code = 403;
 			message = 'Email atau Password tidak Match!';
 			break;
 		case 'Password_Invalid':
-			code = 401;
+			code = 403;
 			message =
 				'Password harus terdiri dari minimal 8 karakter, berupa alphanumeric, terdiri satu huruf kecil, dan satu angka!';
 			break;
