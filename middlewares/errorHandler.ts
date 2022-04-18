@@ -42,6 +42,18 @@ export default (err: Errback, req: Request, res: Response, next: NextFunction) =
 			message =
 				'Password harus terdiri dari minimal 8 karakter, berupa alphanumeric, terdiri satu huruf kecil, dan satu angka!';
 			break;
+		case 'id_user_not_found':
+			code = 404;
+			message = 'ID user tidak ditemukan!';
+			break;
+		case 'id_contact_not_found':
+			code = 404;
+			message = 'ID contact tidak ditemukan!';
+			break;
+		case 'empty_field':
+			code = 400;
+			message = 'Field tidak boleh kosong!';
+			break;
 		default:
 			code = 500;
 			message = 'Internal Server Error!';

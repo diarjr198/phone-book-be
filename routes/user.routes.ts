@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import contacts from '../controllers/contact.controller';
+import checkID from '../middlewares/checkID';
 
 class UserRoutes {
 	userRoutes: Router;
@@ -10,21 +11,21 @@ class UserRoutes {
 	}
 
 	protected userroutes = () => {
-		this.userRoutes.get('/list', contacts.getContactUser);
+		this.userRoutes.get('/list', checkID, contacts.getContactUser);
 
-		this.userRoutes.get('/listspecific', contacts.getContactUserSpecific);
+		this.userRoutes.get('/listspecific', checkID, contacts.getContactUserSpecific);
 
-		this.userRoutes.post('/add', contacts.addContactUser);
+		this.userRoutes.post('/add', checkID, contacts.addContactUser);
 
-		this.userRoutes.put('/update', contacts.updateContactUser);
+		this.userRoutes.put('/update', checkID, contacts.updateContactUser);
 
-		this.userRoutes.delete('/delete', contacts.deleteContactUser);
+		this.userRoutes.delete('/delete', checkID, contacts.deleteContactUser);
 
-		this.userRoutes.patch('/favorite', contacts.favoriteContactUser);
+		this.userRoutes.patch('/favorite', checkID, contacts.favoriteContactUser);
 
-		this.userRoutes.get('/listfavorite', contacts.getListFavoriteContactUser);
+		this.userRoutes.get('/listfavorite', checkID, contacts.getListFavoriteContactUser);
 
-		this.userRoutes.get('/recent', contacts.recentContactUser);
+		this.userRoutes.get('/recent', checkID, contacts.recentContactUser);
 	};
 }
 
