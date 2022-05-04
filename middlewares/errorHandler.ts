@@ -23,7 +23,7 @@ export default (err: Errback, req: Request, res: Response, next: NextFunction) =
 			break;
 		case 'Email_Not_Match':
 			code = 401;
-			message = 'Email yang anda masukan salah!';
+			message = 'Email yang anda masukan tidak terdaftar!';
 			break;
 		case 'Email_Invalid':
 			code = 401;

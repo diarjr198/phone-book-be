@@ -55,12 +55,12 @@ class users {
 			}
 			const result = await User.findOne({ email: email.toLowerCase() });
 			if (!result) {
-				throw { name: 'Email_Not_Found' };
+				throw { name: 'Email_Not_Match' };
 			}
 			const checkPass = bcrypt.compareSync(password, result.password);
 			if (!checkPass) {
 				throw {
-					name: 'Password_Invalid'
+					name: 'User_Invalid'
 				};
 			}
 			const token = jwt.sign(
